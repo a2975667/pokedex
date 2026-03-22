@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pokédex Stage 002: Database Query
 
-## Getting Started
+This stage connects the app to MySQL and returns real Pokémon data from the database. It also introduces pagination parameters.
 
-First, run the development server:
+## Learning Goals
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Create a reusable database helper
+- Read environment variables for server-side code
+- Query a database from a route handler
+- Return paginated API results
+
+## What Exists In This Stage
+
+- `lib/db.ts` creates a MySQL connection pool
+- `app/api/pokemon/route.ts` reads `page` and `limit`
+- The API now returns real rows from the `pokemon` table
+
+## Running This Stage
+
+Create `.env.local` with:
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=pokemon_db
+DB_USER=your_user
+DB_PASSWORD=your_password
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then run:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Test `http://localhost:3000/api/pokemon?page=1&limit=20`.
 
-## Learn More
+## Suggested Teaching Focus
 
-To learn more about Next.js, take a look at the following resources:
+This is the first full-stack stage. Students should trace the flow from request, to SQL query, to JSON response.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Next Stage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Stage `003` adds type filtering so students can build dynamic SQL conditions from query parameters.
