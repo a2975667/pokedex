@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pokédex Stage 012: Advanced Filters
 
-## Getting Started
+This is the last numbered curriculum branch. It adds a richer filter interface on top of the API features built earlier.
 
-First, run the development server:
+## Learning Goals
+
+- Coordinate multiple pieces of client state
+- Map UI controls to query parameters
+- Build a filter panel with toggle buttons and range inputs
+
+## What Exists In This Stage
+
+- All work from stage `011`
+- A show/hide advanced filter panel
+- Type toggle buttons
+- Range controls for HP, Attack, Defense, and Speed
+- Clear and reset behaviors for filters
+
+## Running This Stage
+
+Configure the database credentials in `.env.local`, then run:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Suggested Teaching Focus
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This stage brings the frontend and backend halves of the project together. Students can see how earlier API decisions make the filter UI straightforward to implement.
 
-## Learn More
+## Important Note
 
-To learn more about Next.js, take a look at the following resources:
+The numbered stages stop here. The current `main` branch goes further by reorganizing into `src/`, adding example write operations, and implementing the actual Pokémon detail page.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Next Step
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+After students understand this branch, move to `main` for the post-curriculum additions and cleanup work.
