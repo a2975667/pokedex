@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pokédex Stage 004: Name Search
 
-## Getting Started
+This stage adds a text-based search filter to the API so clients can search Pokémon by name.
 
-First, run the development server:
+## Learning Goals
+
+- Read optional string parameters from the URL
+- Use SQL `LIKE` safely with prepared statements
+- Combine search with pagination and existing filters
+
+## What Exists In This Stage
+
+- All of stage `003`
+- A `name` query parameter in `app/api/pokemon/route.ts`
+- Combined filtering logic for both types and names
+
+## Running This Stage
+
+Configure the database credentials in `.env.local`, then run:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Test `http://localhost:3000/api/pokemon?name=char`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Suggested Teaching Focus
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Students can compare this stage with `003` and see how each new filter adds one small piece of logic instead of rewriting the route.
 
-## Learn More
+## Next Stage
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Stage `005` adds numeric stat-range filters and turns the route into a more complete search API.
