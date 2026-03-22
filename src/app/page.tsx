@@ -227,9 +227,17 @@ export default function Home() {
   return (
     <div className="min-h-screen p-8 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-white">
-          Pokedex
-        </h1>
+        <div className="flex items-center justify-center gap-4 mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
+            Pokedex
+          </h1>
+          <Link
+            href="/branches"
+            className="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-300 rounded-lg text-sm font-medium transition-colors"
+          >
+            Branch History
+          </Link>
+        </div>
 
         {/* Search Bar */}
         <form onSubmit={handleSearch} className="mb-8">
