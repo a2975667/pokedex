@@ -148,7 +148,7 @@ export default function Home() {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
               {pokemon.map((p) => (
-                <div>
+                <div key={p.id}>
                   <div className="text-center mb-4">
                     <span className="text-sm text-gray-500 dark:text-gray-400">
                       #{p.id.toString().padStart(4, '0')}
