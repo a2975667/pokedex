@@ -1,13 +1,28 @@
 // EXAMPLE FILE - NOT USED IN PRODUCTION
 // This file demonstrates how to add POST and PUT methods to the pokemon API route
 
+import mysql from 'mysql2/promise';
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
+
+interface PokemonPayload {
+  name: string;
+  type1: string;
+  type2: string | null;
+  hp: number;
+  attack: number;
+  defense: number;
+  speed: number;
+}
+
+interface PokemonRecord extends mysql.RowDataPacket, PokemonPayload {
+  id: number;
+}
 
 // POST - Create a new Pokemon
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as Partial<PokemonPayload>;
     const { name, type1, type2, hp, attack, defense, speed } = body;
 
     // Validation
@@ -19,7 +34,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Insert new pokemon
-    const result = await query(
+    const result = await query<mysql.ResultSetHeader>(
       `INSERT INTO pokemon (name, type1, type2, hp, attack, defense, speed)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -53,11 +68,11 @@ export async function POST(request: NextRequest) {
 // This is just an example of what it would look like
 export async function PUT_EXAMPLE(request: NextRequest, pokemonId: number) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as Partial<PokemonPayload>;
     const { name, type1, type2, hp, attack, defense, speed } = body;
 
     // Check if pokemon exists
-    const existing = await query(
+    const existing = await query<PokemonRecord[]>(
       'SELECT * FROM pokemon WHERE `id` = ?',
       [pokemonId]
     );
@@ -102,18 +117,19 @@ export async function PUT_EXAMPLE(request: NextRequest, pokemonId: number) {
 // PATCH - Partial update (would typically go in /api/pokemon/[id]/route.ts)
 export async function PATCH_EXAMPLE(request: NextRequest, pokemonId: number) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as Partial<PokemonPayload>;
 
     // Build dynamic update query based on provided fields
     const updateFields: string[] = [];
-    const updateValues: any[] = [];
+    const updateValues: Array<string | number | null> = [];
 
-    const allowedFields = ['name', 'type1', 'type2', 'hp', 'attack', 'defense', 'speed'];
+    const allowedFields: Array<keyof PokemonPayload> = ['name', 'type1', 'type2', 'hp', 'attack', 'defense', 'speed'];
 
     for (const field of allowedFields) {
-      if (body[field] !== undefined) {
+      const value = body[field];
+      if (value !== undefined) {
         updateFields.push(`\`${field}\` = ?`);
-        updateValues.push(body[field]);
+        updateValues.push(value ?? null);
       }
     }
 
@@ -148,7 +164,7 @@ export async function PATCH_EXAMPLE(request: NextRequest, pokemonId: number) {
 // DELETE - Remove a Pokemon (would typically go in /api/pokemon/[id]/route.ts)
 export async function DELETE_EXAMPLE(request: NextRequest, pokemonId: number) {
   try {
-    const result = await query(
+    const result = await query<mysql.ResultSetHeader>(
       'DELETE FROM pokemon WHERE `id` = ?',
       [pokemonId]
     );

@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CS 411 Pokedex Tutorial
 
-## Getting Started
+This repository is the course Pokedex application built with Next.js, React, TypeScript, and MySQL. Students use it to practice building a small full-stack web app with a real database, API routes, filtering, and detail pages.
 
-First, run the development server:
+The final deployment target for the tutorial is Google Cloud Platform. The deployment runbook lives in [docs/gcp-deployment.md](/home/tcheng/teaching/cs411/pokedex/docs/gcp-deployment.md), and it should be updated as the tutorial evolves so the last stage can be shipped without reworking the app.
+
+For a branch-by-branch visual walkthrough of stages `000` through `012`, see [docs/branch-visual-guide.md](/home/tcheng/teaching/cs411/pokedex/docs/branch-visual-guide.md).
+
+## What Students Build
+
+- A searchable Pokedex UI
+- A paginated Pokemon API
+- Filter controls for type and stats
+- A Pokemon detail page
+- A MySQL-backed data layer
+
+## Local Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Create environment variables
+
+Create a local `.env.local` file:
+
+```bash
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=pokemon_db
+DB_USER=your_mysql_user
+DB_PASSWORD=your_mysql_password
+```
+
+If you are connecting through a Unix socket instead of TCP, use `DB_SOCKET_PATH` and omit `DB_HOST`/`DB_PORT`.
+
+### 3. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Useful Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev
+npm run lint
+npm run build
+npm run start
+```
 
-## Learn More
+## Project Map
 
-To learn more about Next.js, take a look at the following resources:
+- [src/app/page.tsx](/home/tcheng/teaching/cs411/pokedex/src/app/page.tsx): main Pokedex UI
+- [src/app/pokemon/[id]/page.tsx](/home/tcheng/teaching/cs411/pokedex/src/app/pokemon/[id]/page.tsx): Pokemon detail page
+- [src/app/api/pokemon/route.ts](/home/tcheng/teaching/cs411/pokedex/src/app/api/pokemon/route.ts): list/search/filter API
+- [src/app/api/pokemon/[id]/route.ts](/home/tcheng/teaching/cs411/pokedex/src/app/api/pokemon/[id]/route.ts): single Pokemon API
+- [src/app/api/pokemon/stats/route.ts](/home/tcheng/teaching/cs411/pokedex/src/app/api/pokemon/stats/route.ts): stat range API
+- [src/lib/db.ts](/home/tcheng/teaching/cs411/pokedex/src/lib/db.ts): MySQL connection pool
+- [examples/README.md](/home/tcheng/teaching/cs411/pokedex/examples/README.md): example API usage and write-operation extensions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tutorial Note For Instructors
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+As new stages are added, keep two things synchronized:
 
-## Deploy on Vercel
+1. The code students are expected to produce.
+2. The deployment assumptions in [docs/gcp-deployment.md](/home/tcheng/teaching/cs411/pokedex/docs/gcp-deployment.md).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+In practice that means documenting:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- New environment variables
+- New Google Cloud services the app depends on
+- Required schema or seed steps
+- Any runtime assumptions that differ between local development and Cloud Run

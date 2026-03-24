@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -86,7 +86,11 @@ export default function Home() {
     totalPages: 0,
   });
 
-  const fetchPokemon = async (page: number = 1, name: string = '', currentFilters: Filters = filters) => {
+  const fetchPokemon = useCallback(async (
+    page: number = 1,
+    name: string = '',
+    currentFilters: Filters = filters
+  ) => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -123,7 +127,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters, pagination.limit, statRanges]);
 
   useEffect(() => {
     // Fetch stat ranges on mount
@@ -151,7 +155,6 @@ export default function Home() {
     };
 
     fetchStatRanges();
-    fetchPokemon();
   }, []);
 
   // Debounced search - updates as you type or filters change
@@ -161,7 +164,7 @@ export default function Home() {
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery, filters]);
+  }, [fetchPokemon, searchQuery, filters]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -219,7 +222,7 @@ export default function Home() {
     return colors[type.toLowerCase()] || 'bg-gray-400';
   };
 
-  const getPokemonImageUrl = (id: number, name: string) => {
+  const getPokemonImageUrl = (id: number) => {
     const paddedId = id.toString().padStart(3, '0');
     return `https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/${paddedId}.png`;
   };
@@ -435,7 +438,7 @@ export default function Home() {
                     </span>
                     <div className="relative w-full h-48 mb-2">
                       <Image
-                        src={getPokemonImageUrl(p.id, p.name)}
+                        src={getPokemonImageUrl(p.id)}
                         alt={p.name}
                         fill
                         className="object-contain"

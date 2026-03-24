@@ -1,5 +1,10 @@
+import mysql from 'mysql2/promise';
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
+
+interface CountRow extends mysql.RowDataPacket {
+  count: string;
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -24,7 +29,7 @@ export async function GET(request: NextRequest) {
 
     let countQuery = 'SELECT COUNT(*) as count FROM pokemon';
     let dataQuery = 'SELECT * FROM pokemon';
-    const queryParams: any[] = [];
+    const queryParams: Array<string | number> = [];
     const conditions: string[] = [];
 
     // Add name filter if provided
@@ -84,7 +89,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get total count
-    const countResult = await query<{ count: string }>(countQuery, queryParams);
+    const countResult = await query<CountRow[]>(countQuery, queryParams);
     const total = parseInt(countResult[0].count);
 
     // Get paginated results
